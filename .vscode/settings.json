@@ -1,0 +1,9 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/Users/timski/Documents/Northeastern/CS-5700-Network/projects/project1",
+            "binaryPath": "/Users/timski/Documents/Northeastern/CS-5700-Network/projects/project1/client",
+            "binaryArgs": []
+        }
+    ]
+}

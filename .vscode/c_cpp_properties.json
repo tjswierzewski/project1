@@ -10,7 +10,8 @@
             "compilerPath": "/opt/homebrew/bin/arm-none-eabi-gcc",
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "macos-clang-arm"
+            "intelliSenseMode": "macos-clang-arm",
+            "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
     "version": 4
