@@ -5,6 +5,7 @@
 #include <iostream>
 #include <netdb.h>
 #include <arpa/inet.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -13,6 +14,7 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
+    char buffer[MAX_LENGTH];
     if (argc < 4 || argc > 6)
     {
         cout << "Usage: <-p port> <-s> [hostname] [Northeastern-username]" << endl;
@@ -22,12 +24,13 @@ int main(int argc, char const *argv[])
     struct sockaddr_in server_addr;
     bzero(&server_addr, sizeof(sockaddr_in));
     server_addr.sin_family = AF_INET;
-    int encrypted = 0, port = PORT;
+    server_addr.sin_port = htons(PORT);
+    int encrypted = 0;
     for (size_t i = 1; i < argc; i++)
     {
         if (strcmp(argv[i], "-p") == 0)
         {
-            server_addr.sin_port = (short)stoi(argv[i++]);
+            server_addr.sin_port = htons(stoi(argv[i++]));
         }
         else if (strcmp(argv[i], "-s") == 0)
         {
@@ -64,13 +67,17 @@ int main(int argc, char const *argv[])
         perror("Creating the socket had the following error:\n");
         return -1;
     }
-    int client_fd = connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr));
-    if (client_fd < 0)
+
+    if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
     {
         perror("Socket connection threw the following error\n");
         return -1;
     }
+    string prefix = "cs5700fall2022 ";
+    string hello = prefix + "HELLO swierzewski.t";
 
-    cout << "Hello from client" << endl;
+    send(sock, hello.c_str(), sizeof(hello.c_str()), 0);
+    read(sock, buffer, MAX_LENGTH);
+    cout << buffer << endl;
     return 0;
 }
