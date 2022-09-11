@@ -1,9 +1,18 @@
 {
     "makefile.launchConfigurations": [
         {
-            "cwd": "/Users/timski/Documents/Northeastern/CS-5700-Network/projects/project1",
-            "binaryPath": "/Users/timski/Documents/Northeastern/CS-5700-Network/projects/project1/client",
-            "binaryArgs": []
+            "name": "arguments",
+            "cwd": "/root/project1",
+            "binaryPath": "/root/project1/client",
+            "binaryArgs": [
+                "-s",
+                "project1.5700.network",
+                "swierzewski.t"
+            ],
+            "MIMode": "gdb"
         }
-    ]
+    ],
+    "files.associations": {
+        "ostream": "cpp"
+    }
 }
