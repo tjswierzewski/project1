@@ -1,5 +1,5 @@
 CC=clang++
-CFLAGS= -g
+CFLAGS= -g3
 
 client: client.cpp
 	${CC} ${CFLAGS} -o $@ $<

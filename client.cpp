@@ -30,7 +30,7 @@ int main(int argc, char const *argv[])
     {
         if (strcmp(argv[i], "-p") == 0)
         {
-            server_addr.sin_port = htons(stoi(argv[i++]));
+            server_addr.sin_port = htons(atoi(argv[++i]));
         }
         else if (strcmp(argv[i], "-s") == 0)
         {
@@ -53,12 +53,6 @@ int main(int argc, char const *argv[])
                 username = argv[i];
             }
         }
-    }
-
-    if (!encrypted)
-    {
-        cout << "Must be encrypted. Run with -s.";
-        return -1;
     }
 
     int sock = socket(PF_INET, SOCK_STREAM, 0);
