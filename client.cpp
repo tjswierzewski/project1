@@ -148,7 +148,7 @@ int main(int argc, char const *argv[])
         else if (message[1] == "")
         {
             status = "HELLO";
-            output = "swierzewski.t";
+            output = username;
         }
         else if (message[1] == "BYE")
         {
