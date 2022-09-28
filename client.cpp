@@ -68,7 +68,7 @@ int main(int argc, char const *argv[])
     char buffer[MAX_LENGTH];
     if (argc < 4 || argc > 6)
     {
-        cout << "Usage: <-p port> <-s> [hostname] [Northeastern-username]" << endl;
+
         exit(1);
     }
     string username;
@@ -159,7 +159,7 @@ int main(int argc, char const *argv[])
             break;
         }
         string full_message = prefix + " " + status + " " + output + '\n';
-        cout << full_message << endl;
+
         int rc;
         if (encrypted)
         {
@@ -182,7 +182,6 @@ int main(int argc, char const *argv[])
 
         buffer[rc] = '\0';
 
-        cout << buffer << endl;
         parseMessage(buffer, message);
         if (message[2] != "\n")
         {
@@ -192,6 +191,7 @@ int main(int argc, char const *argv[])
             myfile.close();
         }
     }
+    cout << message[2] << endl;
 
     close(sock);
     return 0;

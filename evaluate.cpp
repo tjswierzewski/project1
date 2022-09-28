@@ -33,7 +33,10 @@ ap_int<1024> eval_div(ap_int<1024> a, ap_int<1024> b)
 
     if (((a.handle.reg.sign == 1) && (b.handle.reg.sign == 0)) || ((a.handle.reg.sign == 0) && (b.handle.reg.sign == 1)))
     {
-        out--;
+        if (a % b != 0)
+        {
+            out--;
+        }
     }
     return out;
 }
