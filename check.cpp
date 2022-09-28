@@ -6,7 +6,9 @@
 using namespace std;
 
 ap_int<256> evaluate(string txpr);
-
+/**
+ * Function for debugging evaluate.cpp
+ */
 int main(int argc, char const *argv[])
 {
     ifstream myfile;

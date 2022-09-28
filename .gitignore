@@ -4,3 +4,4 @@ gmp-6.2.1.tar.lz
 eval
 client
 problem.txt
+*.dSYM

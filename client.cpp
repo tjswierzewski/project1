@@ -20,7 +20,9 @@ using namespace std;
 #define PORT 27995
 
 ap_int<1024> evaluate(string txpr);
-
+/**
+ * Function is responsible for creating sock file descriptor and connecting to server.
+ */
 int connectSocket(struct sockaddr_in addr)
 {
     int sock = socket(PF_INET, SOCK_STREAM, 0);
@@ -38,7 +40,9 @@ int connectSocket(struct sockaddr_in addr)
 
     return sock;
 }
-
+/**
+ * Function is responsible for setting up SSL context to be used in session.
+ */
 SSL_CTX *InitCTX(void)
 {
     OpenSSL_add_all_algorithms();
@@ -51,7 +55,9 @@ SSL_CTX *InitCTX(void)
     }
     return ctx;
 }
-
+/**
+ * Function is responsible for parsing server messages into 3 strings.
+ */
 void parseMessage(string message, string *output)
 {
     for (size_t i = 0; i < 2; i++)
@@ -66,11 +72,12 @@ void parseMessage(string message, string *output)
 int main(int argc, char const *argv[])
 {
     char buffer[MAX_LENGTH];
+    // Check args are correct length
     if (argc < 4 || argc > 6)
     {
-
         exit(1);
     }
+    // Parse args for TLS status, Host, Port and username
     string username;
     struct hostent *host = NULL;
     struct sockaddr_in server_addr;
@@ -106,7 +113,10 @@ int main(int argc, char const *argv[])
             }
         }
     }
+    // Connect to socket
     int sock = connectSocket(server_addr);
+
+    // Set up TLS if encrypted
     SSL_CTX *ctx;
     SSL *ssl;
     if (encrypted)
@@ -125,6 +135,7 @@ int main(int argc, char const *argv[])
 
     string prefix = "cs5700fall2022";
 
+    // Handler for messages
     string message[3];
     while (message[1] != "BYE")
     {
@@ -136,6 +147,7 @@ int main(int argc, char const *argv[])
             try
             {
                 status = "STATUS";
+                // Found in evaluate.cpp
                 answer = evaluate(message[2]);
                 output = string(answer);
             }
@@ -158,8 +170,11 @@ int main(int argc, char const *argv[])
         {
             break;
         }
+
+        // Create full message
         string full_message = prefix + " " + status + " " + output + '\n';
 
+        // Send and receive message over TLS or basic TCP depending on encryption flag.
         int rc;
         if (encrypted)
         {
@@ -181,8 +196,10 @@ int main(int argc, char const *argv[])
         }
 
         buffer[rc] = '\0';
-
+        // Parse received message for processing
         parseMessage(buffer, message);
+
+        // Save last argument of message for debug
         if (message[2] != "\n")
         {
             ofstream myfile;
@@ -191,8 +208,11 @@ int main(int argc, char const *argv[])
             myfile.close();
         }
     }
+
+    // Print secret_flag
     cout << message[2] << endl;
 
+    // Close connection
     close(sock);
     return 0;
 }
